@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>{{ heading }}</h1>
+    <p>{{ description }}</p>
+    {% for item in content_items %}
+        {% if item.type == 'links' %}
+            <div class="list-group mt-3">
+                {% for link in item.data %}
+                    <a href="{{ link.href }}" class="list-group-item list-group-item-action">{{ link.title }}</a>
+                {% endfor %}
+            </div>
+        {% elif item.type == 'text' %}
+            <p>{{ item.data }}</p>
+        {% elif item.type == 'image' %}
+            <img src="{{ item.data.src }}" alt="{{ item.data.alt }}" class="img-fluid mt-3">
+        {% elif item.type == 'numbered_list' %}
+            <ol class="mt-3">
+                {% for list_item in item.data %}
+                    <li>{{ list_item }}</li>
+                {% endfor %}
+            </ol>
+        {% endif %}
+    {% endfor %}
+{% endblock %}

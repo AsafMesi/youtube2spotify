@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ title }}</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css">
+    <style>
+        body { font-family: Arial, sans-serif; }
+        .header { display: flex; justify-content: space-between; align-items: center; padding: 10px 20px; background-color: #f8f9fa; }
+        .header a { text-decoration: none; color: white; }
+        .header .logout { background-color: #dc3545; color: white; padding: 5px 10px; border-radius: 5px; }
+        .container { margin-top: 20px; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Youtube to Spotify</h1>
+        <a href="{{ url_for('logout') }}" class="logout">Logout</a>
+    </div>
+    <div class="container">
+        {% block content %}
+        {% endblock %}
+    </div>
+</body>
+</html>

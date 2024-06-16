@@ -1,4 +1,5 @@
 import os
+from dotenv import load_dotenv
 
 from flask import Flask, session, redirect, url_for, request, render_template
 
@@ -6,10 +7,11 @@ from spotipy import Spotify
 from spotipy.oauth2 import SpotifyOAuth
 from spotipy.cache_handler import FlaskSessionCacheHandler
 
-app = Flask(__name__ , template_folder='templates')
+app = Flask(__name__, template_folder='templates')
 app.config['SECRET_KEY'] = os.urandom(64)
-client_id = '0fccbf92d9c14c38ac5d82e065bb2e70'
-client_secret = '50f9e09e37354a3f932caa352fe9d94a'
+load_dotenv('spotify.env')
+client_id = os.getenv('CLIENT_ID')
+client_secret = os.getenv('CLIENT_SECRET')
 redirect_uri = 'http://localhost:5000/callback'
 scope = 'playlist-read-private'
 
@@ -69,6 +71,12 @@ def home():
                            content_items=content_items)
 
 
+@app.route('/logout')
+def logout():
+    session.clear()
+    return redirect(url_for('login'))
+
+
 @app.route('/playlists')
 def playlists():
     if not is_token_validated():
@@ -76,7 +84,7 @@ def playlists():
 
     user_playlists = sp.current_user_playlists()
     playlists_info = [(pl['name'], pl['external_urls']['spotify']) for pl in user_playlists['items']]
-    playlists_items = [f'{name}: {url}' for name, url in playlists_info]
+    playlists_items = [f'{name}: <a href="{url}"> Link</a?>' for name, url in playlists_info]
 
     content_items = [
         {'type': 'links', 'data': [{'href': '/', 'title': 'Home'}]},
@@ -89,12 +97,6 @@ def playlists():
                            description='Here are all your playlists:',
                            content_items=content_items
                            )
-
-
-@app.route('/logout')
-def logout():
-    session.clear()
-    return redirect(url_for('login'))
 
 
 if __name__ == '__main__':

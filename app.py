@@ -84,7 +84,7 @@ def playlists():
 
     user_playlists = sp.current_user_playlists()
     playlists_info = [(pl['name'], pl['external_urls']['spotify']) for pl in user_playlists['items']]
-    playlists_items = [f'{name}: <a href="{url}"> Link</a?>' for name, url in playlists_info]
+    playlists_items = [f'{name}: {url}' for name, url in playlists_info]
 
     content_items = [
         {'type': 'links', 'data': [{'href': '/', 'title': 'Home'}]},
@@ -97,6 +97,12 @@ def playlists():
                            description='Here are all your playlists:',
                            content_items=content_items
                            )
+
+
+@app.route('/logout')
+def logout():
+    session.clear()
+    return redirect(url_for('login'))
 
 
 if __name__ == '__main__':

@@ -1,0 +1,26 @@
+# Common IDE files
+*.pyc  # Python bytecode files
+*.idea/  # IntelliJ IDEA project files
+.vscode/  # Visual Studio Code project files
+
+# System or build related files
+__pycache__/  # Python cache directory
+dist/  # Build output directory
+build/  # Build output directory
+
+# Temporary files
+*.tmp
+*.temp
+*~
+
+# Environment specific files
+.env  # Development environment variables (for development only)
+
+# Testing frameworks
+# Adjust these based on your testing frameworks
+*.log
+test_*.py  # Example for Python unit tests
+
+# Specific file or directory
+# For example, to ignore a specific configuration file:
+config.ini
